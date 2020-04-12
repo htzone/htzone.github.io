@@ -70,8 +70,7 @@
 <p>输出为false，为什么呢？上面代码类似于：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String name1 = <span class="keyword">new</span> String(nihao);</span><br><span class="line">String name2 = <span class="keyword">new</span> String(nihao);</span><br><span class="line">System.out.println(name1==name2);</span><br></pre></td></tr></table></figure>
 <p>String类中以String为参数的构造方法代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">String</span><span class="params">(String original)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.value = original.value;</span><br><span class="line">    <span class="keyword">this</span>.hash = original.hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>hash是String类中另一个实例变量，表示缓存的hashCode值，我们待会介绍。<br>可以看出, name1和name2指向两个不同的String对象，只是这两个对象内部的value值指向相同的char数组。其内存布局大概如下所示：</p>
-<p><img src="/2018/06/05/剖析String/924211-20160801073107872-258724056.jpg" alt="配置截图"></p>
+<p>hash是String类中另一个实例变量，表示缓存的hashCode值，我们待会介绍。<br>可以看出, name1和name2指向两个不同的String对象，只是这两个对象内部的value值指向相同的char数组。</p>
 <p>所以，name1==name2是不成立的，但name1.equals(name2)是true。</p>
 <p><strong>hashCode</strong></p>
 <p>我们刚刚提到hash这个实例变量，它的定义如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> hash; <span class="comment">// Default to 0</span></span><br></pre></td></tr></table></figure></p>
