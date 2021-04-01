@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="baidu-site-verification" content="1EB8XoOl0C"><meta name="google-site-verification" content="K7thEgdLm0UfRWJ5MGdF7sCcjClSzAlxFLPv2Oz5CGM"><title> 整数的二进制表示和位运算 · RedPig's Blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="整数的二进制表示和位运算 - RedPig"><meta name="keywords"><meta name="author" content="RedPig"><link rel="short icon" href="/images/favicon.png"><link rel="stylesheet" href="/css/bubuzou.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="RedPig's Blog"><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="RedPig's Blog" type="application/atom+xml">
+</head><body><header><div class="header row"> <a href="/" class="logo-link"><img src="/images/logo.png"></a><ul id="nav_list" class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" data-hover="博文" class="nav-list-link">博文</a></li><li class="nav-list-item"><a href="/archives/" target="_self" data-hover="目录" class="nav-list-link">目录</a></li><li class="nav-list-item"><a href="https://github.com/htzone" target="_blank" data-hover="项目" class="nav-list-link">项目</a></li></ul><div class="search"><a id="search_btn" href="#search"></a></div><div id="nav_btn" class="nav-btn"><span></span><span></span><span></span></div></div></header><div class="row scroll-con"><section class="container"><!-- for archive page--><div id="postAr" class="post"><article class="post-block"><h1 class="post-title">整数的二进制表示和位运算</h1><div class="post-info">2018-04-08<p class="visit"><i data-identity="2018/04/08/整数的二进制表示和位运算/" class="article-timer"></i><span>次访问</span></p></div><div class="post-content"><p>上节我们提到正整数相乘的结果居然出现了负数，要理解这个行为，我们需要看下整数在计算机内部的二进制表示。</p>
+<h2 id="十进制"><a href="#十进制" class="headerlink" title="十进制"></a>十进制</h2><p>要理解二进制，我们先来看下熟悉的十进制。十进制是如此的熟悉，我们可能已忽略了它的含义。比如123，我们不假思索就知道它的值是多少。</p>
+<p>但其实123表示的1*(10^2) + 2*(10^1) + 3*(10^0)，(10^2表示10的二次方)，它表示的是各个位置数字含义之和，每个位置的数字含义与位置有关，从右向左，第一位乘以10的0次方， 即1，第二位乘以10的1次方，即10，第三位乘以10的2次方，即100，依次类推。</p>
+<p>换句话说，每个位置都有一个位权，从右到左，第一位为1，然后依次乘以10，即第二位为10，第三位为100，依次类推。</p>
+<h2 id="二进制"><a href="#二进制" class="headerlink" title="二进制"></a>二进制</h2><h3 id="正整数的二进制表示"><a href="#正整数的二进制表示" class="headerlink" title="正整数的二进制表示"></a>正整数的二进制表示</h3><p>正整数的二进制表示与此类似， 只是在十进制中，每个位置可以有10个数字，从0到9，但在二进制中，每个位置只能是0或1。位权的概念是类似的，从右到左，第一位为1，然后依次乘以2，即第二位为2，第三位为4，依次类推。</p>
+<p>看一些数字的例子吧</p>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10</td>
+<td>2</td>
+</tr>
+<tr>
+<td>11</td>
+<td>3</td>
+</tr>
+<tr>
+<td>111</td>
+<td>7</td>
+</tr>
+<tr>
+<td>1010</td>
+<td>10</td>
+</tr>
+</tbody></table>
+<h3 id="负整数的二进制表示"><a href="#负整数的二进制表示" class="headerlink" title="负整数的二进制表示"></a>负整数的二进制表示</h3><p>十进制的负数表示就是在前面加一个负数符号-，例如-123。但二进制如何表示负数呢？</p>
+<p>其实概念是类似的，二进制使用最高位表示符号位，用1表示负数，用0表示正数。</p>
+<p>但哪个是最高位呢？整数有四种类型，byte/short/int/long，分别占1/2/4/8个字节，即分别占8/16/32/64位，每种类型的符号位都是其最左边的一位。</p>
+<p>为方便举例，下面假定类型是byte，即从右到左的第8位表示符号位。</p>
+<p>但负数表示不是简单的将最高位变为1，比如说：</p>
+<ul>
+<li>byte a = -1，如果只是将最高位变为1，二进制应该是10000001，但实际上，它应该是11111111。</li>
+<li>byte a=-127，如果只是将最高位变为1，二进制应该是11111111，但实际上，它却应该是10000001。</li>
+</ul>
+<p>和我们的直觉正好相反，这是什么表示法？这种表示法称为补码表示法，而符合我们直觉的表示称为原码表示法，补码表示就是在原码表示的基础上取反然后加1。取反就是将0变为1，1变为0。</p>
+<p>负数的二进制表示就是对应的正数的补码表示，比如说：</p>
+<ul>
+<li>-1：1的原码表示是00000001，取反是11111110，然后再加1，就是11111111。</li>
+<li>-2：2的原码表示是00000010，取反是11111101，然后再加1，就是11111110。</li>
+<li>-127：127的原码表示是01111111，取反是10000000，然后再加1，就是10000001。</li>
+</ul>
+<p>给定一个负数二进制表示，要想知道它的十进制值，可以采用相同的补码运算。比如：10010010，首先取反，变为01101101，然后加1，结果为01101110，它的十进制值为110，所以原值就是-110。直觉上，应该是先减1，然后再取反，但计算机只能做加法，而补码的一个良好特性就是，对负数的补码表示做补码运算就可以得到其对应整数的原码，正如十进制运算中负负得正一样。</p>
+<p>byte类型，正数最大表示是01111111，即127，负数最小表示（绝对值最大）是10000000，即-128，表示范围就是 -128到127。其他类型的整数也类似，负数能多表示一个数。</p>
+<p><strong>负整数为什么采用补码呢？</strong></p>
+<p>负整数为什么要采用这种奇怪的表示形式呢？原因是：只有这种形式，计算机才能实现正确的加减法。</p>
+<p>计算机其实只能做加法，1-1其实是1+(-1)。如果用原码表示，计算结果是不对的。比如说：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 1 -&gt; 00000001</span><br><span class="line">-1 -&gt; 10000001</span><br><span class="line">+ ------------------</span><br><span class="line">-2 -&gt; 10000010</span><br></pre></td></tr></table></figure>
+
+<p>用符合直觉的原码表示，1-1的结果是-2。</p>
+<p>如果是补码表示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 1 -&gt; 00000001</span><br><span class="line">-1 -&gt; 11111111</span><br><span class="line">+ ------------------</span><br><span class="line"> 0 -&gt; 00000000</span><br></pre></td></tr></table></figure>
+<p>结果是正确的。</p>
+<p>再比如，5-3：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 5 -&gt; 00000101</span><br><span class="line">-3 -&gt; 11111101</span><br><span class="line">+ ------------------</span><br><span class="line"> 2 -&gt; 00000010</span><br></pre></td></tr></table></figure>
+<p>结果也是正确的。</p>
+<p>就是这样的，看上去可能比较奇怪和难以理解，但这种表示其实是非常严谨和正确的，是不是很奇妙？</p>
+<p>理解了二进制加减法，我们就能理解为什么正数的运算结果可能出现负数了。当计算结果超出表示范围的时候，最高位往往是1，然后就会被看做负数。比如说，127+1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127   -&gt; 01111111</span><br><span class="line">1     -&gt; 00000001</span><br><span class="line">+ ------------------</span><br><span class="line">-128  -&gt; 10000000</span><br></pre></td></tr></table></figure>
+
+<p>计算结果超出了byte的表示范围，会被看做-128。</p>
+<h2 id="十六进制"><a href="#十六进制" class="headerlink" title="十六进制"></a>十六进制</h2><p>二进制写起来太长，为了简化写法，可以将四个二进制位简化为一个0到15的数，10到15用字符A到F表示，这种表示方法称为16进制，如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+<th>十六进制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1010</td>
+<td>10</td>
+<td>A</td>
+</tr>
+<tr>
+<td>1011</td>
+<td>11</td>
+<td>B</td>
+</tr>
+<tr>
+<td>1100</td>
+<td>12</td>
+<td>C</td>
+</tr>
+<tr>
+<td>1101</td>
+<td>13</td>
+<td>D</td>
+</tr>
+<tr>
+<td>1110</td>
+<td>14</td>
+<td>E</td>
+</tr>
+<tr>
+<td>1111</td>
+<td>15</td>
+<td>F</td>
+</tr>
+</tbody></table>
+<p>可以用16进制直接写常量数字，在数字前面加0x即可。比如10进制的123，用16进制表示是0x7B，即123 = 7*16+11。给整数赋值或者进行运算的时候，都可以直接使用16进制，比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">0x7B</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Java中不支持直接写二进制常量，比如，想写二进制形式的11001，Java中不能直接写，可以在前面补0，补足8位，为00011001，然后用16进制表示，即 0x19。</p>
+<h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><p>位运算是将数据看做二进制，进行位级别的操作，Java不能单独表示一个位，但是可以用byte表示8位，可以用16进制写二进制常量。比如： 0010表示成16进制是 0x2, 110110表示成16进制是 0x36。</p>
+<p>位运算有移位运算和逻辑运算。</p>
+<p>移位有：</p>
+<ul>
+<li>左移：操作符为&lt;&lt;，向左移动，右边的低位补0，高位的就舍弃掉了，将二进制看做整数，左移1位就相当于乘以2。</li>
+<li>无符号右移：操作符为&gt;&gt;&gt;，向右移动，右边的舍弃掉，左边补0。</li>
+<li>有符号右移：操作符为&gt;&gt;，向右移动，右边的舍弃掉，左边补什么取决于原来最高位是什么，原来是1就补1，原来是0就补0，将二进制看做整数，右移1位相当于除以2。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">4</span>; <span class="comment">// 100</span></span><br><span class="line">a = a &gt;&gt; <span class="number">2</span>; <span class="comment">// 001，等于1</span></span><br><span class="line">a = a &lt;&lt; <span class="number">3</span> <span class="comment">// 1000，变为8</span></span><br></pre></td></tr></table></figure>
+
+<p>逻辑运算有：</p>
+<ul>
+<li>按位与 &amp;：两位都为1才为1</li>
+<li>按位或 |：只要有一位为1，就为1</li>
+<li>按位取反 ~： 1变为0，0变为1</li>
+<li>按位异或 ^ ：相异为真，相同为假</li>
+</ul>
+<p>大部分都比较简单，就不详细说了。具体形式，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = ...;</span><br><span class="line">a = a &amp; <span class="number">0x1</span> <span class="comment">// 返回0或1，就是a最右边一位的值。</span></span><br><span class="line">a = a | <span class="number">0x1</span> <span class="comment">//不管a原来最右边一位是什么，都将设为1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本节我们讨论了整数的二进制表示，需要注意的就是负数的二进制表示，以及计算机进行二进制加减操作的过程，从而我们就能理解为什么有的时候正整数计算会出现负数。</p>
+<p>理解了整数，那小数呢？请见下节分享。</p>
+</div></article></div><div class="right-container"><div class="widget"><div id="arAnchorBar"></div></div></div></section></div><div class="right-menu"></div><div class="modal search-modal"><div class="input-field"><input type="text" id="search_input"><label for="search-input">搜索</label></div><div id="search_result" class="search-result"></div></div><div class="blog-overlay"></div><footer class="row"><div class="footer-con"><div class="paginator"><a href="/2018/05/02/%E5%B0%8F%E6%95%B0%E8%AE%A1%E7%AE%97%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%B2%BE%E7%A1%AE/" title="小数计算为什么不精确" class="prev">PREV</a><a href="/2018/04/05/%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97/" title="基本运算" class="next">NEXT</a></div><a href="#comment" class="comment-anchor"></a><div id="vcomments"></div><script>new Valine({
+    el: "#vcomments",
+    appId: "aD8jJBpu4oew3ovNY73z6Rdq-gzGzoHsz",
+    appKey: "FdzS5SOPHdhYQoEUngQ8K2QW",
+    notify: false,
+    verify: false,
+    avatar: "robohash",
+    visitor: true,
+    placeholder: "随便说点什么～.～",
+});</script><div class="copyright"><p>© 2016 - 2021 <a target="_blank">RedPig</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <br> and <a href="https://github.com/Bulandent/hexo-theme-bubuzou" target="_blank">hexo-theme-bubuzou</a></p><p> <span style="padding-right: 6px;">闽ICP备16007301号-2</span></p></div><div class="totop"><i></i></div></div></footer><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/jquery-1.8.2.min.js"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/articleCatalog.js"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/main.js"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script><script>const valineAPI = (() => {
+try {
+    AV.init("aD8jJBpu4oew3ovNY73z6Rdq-gzGzoHsz", "FdzS5SOPHdhYQoEUngQ8K2QW");
+} catch(error) {}
+const isExist = (identity) => {
+    identity = identity || getRealPath();
+    let query = new AV.Query('Timer');
+    return new Promise((resolve, reject) => {
+    query.equalTo("identity", identity);
+    query.find().then(results => {
+        resolve(results.length > 0);
+    }, error => reject(error));
+    })
+}
+
+const _get = (identity) => {
+    let query = null;
+    if(identity && identity instanceof Array){
+    let querys = [];
+    for(let i = 0; i < identity.length; ++i) {
+        querys[i] = new AV.Query('Timer');
+        querys[i].equalTo('identity', identity[i]);
+    }
+    query = AV.Query.or.apply(null ,querys);
+    } else {
+    identity = identity || getRealPath();
+    query = new AV.Query("Timer");
+    query.equalTo("identity", identity);
+    }
+
+    return new Promise((resolve, reject) => {
+    query.find()
+    .then(results => resolve(results))
+    .catch(error => reject(error))
+    })
+}
+
+const create = (identity) => {
+    identity = identity || getRealPath();
+    return new Promise((resolve, reject) => {
+    let Todo = AV.Object.extend('Timer');
+    let todo = new Todo();
+    todo.set("times", 1);
+    todo.set("identity", identity);
+    todo.save().then(res => resolve(true), error => reject(error));
+    })
+}
+
+const update = (identity) => {
+    identity = identity || getRealPath();
+    return new Promise((resolve, reject) => {
+    let query = new AV.Query('Timer');
+    query.equalTo("identity", identity);
+    query.find().then(todos => {
+        todos.forEach(todo => {
+        todo.set("times", todo.attributes.times + 1);
+        });
+        return AV.Object.saveAll(todos);
+    }).then(todos => resolve(true), error => reject(error));
+    })
+}
+
+return {
+    isExist,
+    _get,
+    update,
+    create
+}
+})()
+
+const calcAndWriteTimes = () => {
+let isPost = true;
+
+let timerAllDOM = document.querySelectorAll(".article-timer");
+
+if(isPost) {
+    let identity = timerAllDOM[0].getAttribute("data-identity");
+    valineAPI.isExist(identity)
+    .then(exist => {
+    if(exist) {
+        return valineAPI.update(identity);
+    }
+    return new Promise(resolve => resolve(true));
+    })
+    .then( succuess => valineAPI._get(identity))
+    .then( result => timerAllDOM[0].innerText = result[0].attributes.times)
+    .catch(error => console.log(error.message))
+    return ;
+}
+
+let timerDOMCache = {};
+
+for(let timerDOM of timerAllDOM) {
+    let identity = timerDOM.getAttribute("data-identity");
+    if(timerDOMCache.hasOwnProperty(identity)){
+    timerDOMCache[identity].dom.push(timerDOM);
+    }else{
+    timerDOMCache[identity] = {
+        dom: [timerDOM],
+        times: undefined
+    };
+    }
+}
+
+let identities = Object.keys(timerDOMCache);
+valineAPI._get(identities).then(results => {
+    for(let result of results) {
+    let {identity, times} = result.attributes;
+    timerDOMCache[identity].times = times;
+    timerDOMCache[identity].dom.map(item => item.innerText = times);
+    }
+    for(let identity of identities) {
+    if(timerDOMCache[identity].times){
+        continue;
+    }
+    timerDOMCache[identity].dom.map(item => item.innerText = 1);
+    valineAPI.create(identity);
+    }
+}).catch(error => console.log(error.message))
+}
+
+if(true){
+calcAndWriteTimes();
+}</script></body></html>

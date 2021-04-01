@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="baidu-site-verification" content="1EB8XoOl0C"><meta name="google-site-verification" content="K7thEgdLm0UfRWJ5MGdF7sCcjClSzAlxFLPv2Oz5CGM"><title> 如何将Hexo托管到GitHub · RedPig's Blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="如何将Hexo托管到GitHub - RedPig"><meta name="keywords"><meta name="author" content="RedPig"><link rel="short icon" href="/images/favicon.png"><link rel="stylesheet" href="/css/bubuzou.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="RedPig's Blog"><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="RedPig's Blog" type="application/atom+xml">
+</head><body><header><div class="header row"> <a href="/" class="logo-link"><img src="/images/logo.png"></a><ul id="nav_list" class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" data-hover="博文" class="nav-list-link">博文</a></li><li class="nav-list-item"><a href="/archives/" target="_self" data-hover="目录" class="nav-list-link">目录</a></li><li class="nav-list-item"><a href="https://github.com/htzone" target="_blank" data-hover="项目" class="nav-list-link">项目</a></li></ul><div class="search"><a id="search_btn" href="#search"></a></div><div id="nav_btn" class="nav-btn"><span></span><span></span><span></span></div></div></header><div class="row scroll-con"><section class="container"><!-- for archive page--><div id="postAr" class="post"><article class="post-block"><h1 class="post-title">如何将Hexo托管到GitHub</h1><div class="post-info">2016-07-26<p class="visit"><i data-identity="2016/07/26/如何将Hexo托管到GitHub/" class="article-timer"></i><span>次访问</span></p></div><div class="post-content"><h2 id="如何将Hexo托管到GitHub"><a href="#如何将Hexo托管到GitHub" class="headerlink" title="如何将Hexo托管到GitHub"></a>如何将Hexo托管到GitHub</h2><h2 id="托管步骤"><a href="#托管步骤" class="headerlink" title="托管步骤"></a>托管步骤</h2><p><b>步骤1</b>：首先，你要先有一个GitHub账户，没有就去注册一个吧。注册完登录后，会在GitHub.com中看到一个New repository（新建仓库）。</p>
+<p><b>步骤2</b>：创建一个和你用户名相同的仓库，后面加.github.io，只有这样，将来要部署到GitHub page的时候，才会被识别，也就是xxx.github.io，其中xxx就是你注册GitHub的用户名。</p>
+<p><b>步骤3</b>：生成SSH添加到GitHub，在Git bash中输入如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+<p>这里的yourname输入你的GitHub用户名，youremail输入你GitHub的邮箱，这样GitHub才能知道你是不是它的账户。可以用以下两条命令检查你现在的用户名和邮箱：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.name</span><br><span class="line">git config user.email</span><br></pre></td></tr></table></figure>
+<p>然后创建SSH，输入如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+<p>之后一路回车就行。SSH简单来讲，就是一个秘钥，其中，id_rsa是你这台电脑的私人秘钥，不能给别人看的，id_rsa.pub是公共秘钥，可以随便给别人看。把这个公钥放在GitHub上，这样当你链接GitHub自己的账户时，它就会根据公钥匹配你的私钥，当能够相互匹配时，才能够顺利的通过git上传你的文件到GitHub上。<br><b>步骤4</b>：在GitHub的setting中，找到SSH keys的设置选项，点击New SSH key把你的id_rsa.pub里面的信息复制进去，通过如下命令查看是否设置成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>完成这一步，我们就将hexo和GitHub关联起来了。<br><b>步骤5</b>：打开我们之前介绍的站点配置文件_config.yml，找到如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:[yourname]&#x2F;[yourname].github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>修改[yourname]为你的GitHub账户，然后输入安装deploy-git的命令 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>这样你才能用命令部署到GitHub。<br><b>步骤6</b>：最后输入如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+<p><a href>hexo clean</a> 清除你之前生成的东西，也可以不加。<br><a href>hexo generate</a> (可缩写hexo g) 顾名思义，生成静态文章<br><a href>hexo deploy</a> (可缩写hexo d) 部署文章</p>
+<h2 id="设置个人域名"><a href="#设置个人域名" class="headerlink" title="设置个人域名"></a>设置个人域名</h2><p>现在你的个人博客网站的地址默认是<a href>yourname.github.io</a>，如果你觉得这个网址逼格太low了，则可以设置自己的个人域名。<br><b>步骤1</b>：如果你没有自己的域名，你就需要花钱去注册或买一个自己域名，一般在域名购买网站的域名管理后台中你可以看到你购买的域名。你可以添加解析，将GitHub的服务器地址设置进去<br>192.30.252.153 和 192.30.252.154 是GitHub的服务器地址。</p>
+<div class="tip">解析线路一般选择默认，但你也可以用这个来做国内外分流。</div>
+
+<p><b>步骤2</b>：登录GitHub，进入之前创建的仓库，点击settings，设置Custom domain，输入你的域名。然后在你的博客文件source中创建一个名为CNAME文件，不要后缀，写上你的域名。</p>
+<p><b>步骤3</b>：最后重新部署一下即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure></div></article></div><div class="right-container"><div class="widget"><div id="arAnchorBar"></div></div></div></section></div><div class="right-menu"></div><div class="modal search-modal"><div class="input-field"><input type="text" id="search_input"><label for="search-input">搜索</label></div><div id="search_result" class="search-result"></div></div><div class="blog-overlay"></div><footer class="row"><div class="footer-con"><div class="paginator"><a href="/2018/03/31/%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%8F%98%E9%87%8F/" title="数据与变量" class="prev">PREV</a><a href="/2016/07/02/Hexo%E5%8D%9A%E5%AE%A2%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Hexo博客开源框架的使用" class="next">NEXT</a></div><a href="#comment" class="comment-anchor"></a><div id="vcomments"></div><script>new Valine({
+    el: "#vcomments",
+    appId: "aD8jJBpu4oew3ovNY73z6Rdq-gzGzoHsz",
+    appKey: "FdzS5SOPHdhYQoEUngQ8K2QW",
+    notify: false,
+    verify: false,
+    avatar: "robohash",
+    visitor: true,
+    placeholder: "随便说点什么～.～",
+});</script><div class="copyright"><p>© 2016 - 2021 <a target="_blank">RedPig</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <br> and <a href="https://github.com/Bulandent/hexo-theme-bubuzou" target="_blank">hexo-theme-bubuzou</a></p><p> <span style="padding-right: 6px;">闽ICP备16007301号-2</span></p></div><div class="totop"><i></i></div></div></footer><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/jquery-1.8.2.min.js"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/articleCatalog.js"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/main.js"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script><script>const valineAPI = (() => {
+try {
+    AV.init("aD8jJBpu4oew3ovNY73z6Rdq-gzGzoHsz", "FdzS5SOPHdhYQoEUngQ8K2QW");
+} catch(error) {}
+const isExist = (identity) => {
+    identity = identity || getRealPath();
+    let query = new AV.Query('Timer');
+    return new Promise((resolve, reject) => {
+    query.equalTo("identity", identity);
+    query.find().then(results => {
+        resolve(results.length > 0);
+    }, error => reject(error));
+    })
+}
+
+const _get = (identity) => {
+    let query = null;
+    if(identity && identity instanceof Array){
+    let querys = [];
+    for(let i = 0; i < identity.length; ++i) {
+        querys[i] = new AV.Query('Timer');
+        querys[i].equalTo('identity', identity[i]);
+    }
+    query = AV.Query.or.apply(null ,querys);
+    } else {
+    identity = identity || getRealPath();
+    query = new AV.Query("Timer");
+    query.equalTo("identity", identity);
+    }
+
+    return new Promise((resolve, reject) => {
+    query.find()
+    .then(results => resolve(results))
+    .catch(error => reject(error))
+    })
+}
+
+const create = (identity) => {
+    identity = identity || getRealPath();
+    return new Promise((resolve, reject) => {
+    let Todo = AV.Object.extend('Timer');
+    let todo = new Todo();
+    todo.set("times", 1);
+    todo.set("identity", identity);
+    todo.save().then(res => resolve(true), error => reject(error));
+    })
+}
+
+const update = (identity) => {
+    identity = identity || getRealPath();
+    return new Promise((resolve, reject) => {
+    let query = new AV.Query('Timer');
+    query.equalTo("identity", identity);
+    query.find().then(todos => {
+        todos.forEach(todo => {
+        todo.set("times", todo.attributes.times + 1);
+        });
+        return AV.Object.saveAll(todos);
+    }).then(todos => resolve(true), error => reject(error));
+    })
+}
+
+return {
+    isExist,
+    _get,
+    update,
+    create
+}
+})()
+
+const calcAndWriteTimes = () => {
+let isPost = true;
+
+let timerAllDOM = document.querySelectorAll(".article-timer");
+
+if(isPost) {
+    let identity = timerAllDOM[0].getAttribute("data-identity");
+    valineAPI.isExist(identity)
+    .then(exist => {
+    if(exist) {
+        return valineAPI.update(identity);
+    }
+    return new Promise(resolve => resolve(true));
+    })
+    .then( succuess => valineAPI._get(identity))
+    .then( result => timerAllDOM[0].innerText = result[0].attributes.times)
+    .catch(error => console.log(error.message))
+    return ;
+}
+
+let timerDOMCache = {};
+
+for(let timerDOM of timerAllDOM) {
+    let identity = timerDOM.getAttribute("data-identity");
+    if(timerDOMCache.hasOwnProperty(identity)){
+    timerDOMCache[identity].dom.push(timerDOM);
+    }else{
+    timerDOMCache[identity] = {
+        dom: [timerDOM],
+        times: undefined
+    };
+    }
+}
+
+let identities = Object.keys(timerDOMCache);
+valineAPI._get(identities).then(results => {
+    for(let result of results) {
+    let {identity, times} = result.attributes;
+    timerDOMCache[identity].times = times;
+    timerDOMCache[identity].dom.map(item => item.innerText = times);
+    }
+    for(let identity of identities) {
+    if(timerDOMCache[identity].times){
+        continue;
+    }
+    timerDOMCache[identity].dom.map(item => item.innerText = 1);
+    valineAPI.create(identity);
+    }
+}).catch(error => console.log(error.message))
+}
+
+if(true){
+calcAndWriteTimes();
+}</script></body></html>

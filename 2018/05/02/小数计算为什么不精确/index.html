@@ -1,0 +1,188 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="baidu-site-verification" content="1EB8XoOl0C"><meta name="google-site-verification" content="K7thEgdLm0UfRWJ5MGdF7sCcjClSzAlxFLPv2Oz5CGM"><title> 小数计算为什么不精确 · RedPig's Blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="小数计算为什么不精确 - RedPig"><meta name="keywords"><meta name="author" content="RedPig"><link rel="short icon" href="/images/favicon.png"><link rel="stylesheet" href="/css/bubuzou.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="RedPig's Blog"><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="RedPig's Blog" type="application/atom+xml">
+</head><body><header><div class="header row"> <a href="/" class="logo-link"><img src="/images/logo.png"></a><ul id="nav_list" class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" data-hover="博文" class="nav-list-link">博文</a></li><li class="nav-list-item"><a href="/archives/" target="_self" data-hover="目录" class="nav-list-link">目录</a></li><li class="nav-list-item"><a href="https://github.com/htzone" target="_blank" data-hover="项目" class="nav-list-link">项目</a></li></ul><div class="search"><a id="search_btn" href="#search"></a></div><div id="nav_btn" class="nav-btn"><span></span><span></span><span></span></div></div></header><div class="row scroll-con"><section class="container"><!-- for archive page--><div id="postAr" class="post"><article class="post-block"><h1 class="post-title">小数计算为什么不精确</h1><div class="post-info">2018-05-02<p class="visit"><i data-identity="2018/05/02/小数计算为什么不精确/" class="article-timer"></i><span>次访问</span></p></div><div class="post-content"><h2 id="违反直觉"><a href="#违反直觉" class="headerlink" title="违反直觉"></a>违反直觉</h2><p>计算机之所以叫”计算”机就是因为发明它主要是用来计算的，”计算”当然是它的特长，在大家的印象中，计算一定是非常准确的。但实际上，即使在一些非常基本的小数运算中，计算的结果也是不精确的。</p>
+<p>比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> f = <span class="number">0.1f</span>*<span class="number">0.1f</span>;</span><br><span class="line">System.out.println(f);</span><br></pre></td></tr></table></figure>
+
+<p>这个结果看上去，不言而喻，应该是0.01，但实际上，屏幕输出却是0.010000001，后面多了个1。</p>
+<p>看上去这么简单的运算，计算机怎么会出错了呢？</p>
+<h2 id="为什么会出错呢？"><a href="#为什么会出错呢？" class="headerlink" title="为什么会出错呢？"></a>为什么会出错呢？</h2><p>实际上，不是运算本身会出错，而是计算机根本就不能精确的表示很多数，比如0.1这个数。</p>
+<p>计算机是用一种二进制格式存储小数的，这个二进制格式不能精确表示0.1，它只能表示一个非常接近0.1但又不等于0.1的一个数。</p>
+<p>数字都不能精确表示，在不精确数字上的运算结果不精确也就不足为奇了。</p>
+<p>0.1怎么会不能精确表示呢？在十进制的世界里是可以的，但在二进制的世界里不行。在说二进制之前，我们先来看下熟悉的十进制。</p>
+<p>实际上，十进制也只能表示那些可以表述为10的多少次方和的数，比如12.345，实际上表示的：1<em>10+2</em>1+3<em>0.1+4</em>0.01+5*0.001，与整数的表示类似，小数点后面的每个位置也都有一个位权，从左到右，依次为 0.1,0.01,0.001,…即10^(-1), 10^(-2), 10^(-3)。</p>
+<p>很多数，十进制也是不能精确表示的，比如1/3, 保留三位小数的话，十进制表示是0.333，但无论后面保留多少位小数，都是不精确的，用0.333进行运算，比如乘以3，期望结果是1，但实际上却是0.999。</p>
+<p>二进制是类似的，但二进制只能表示哪些可以表述为2的多少次方和的数，来看下2的次方的一些例子：</p>
+<table>
+<thead>
+<tr>
+<th>2的次方</th>
+<th>十进制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2^(-1)</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>2^(-2)</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>2^(-3)</td>
+<td>0.125</td>
+</tr>
+<tr>
+<td>2^(-4)</td>
+<td>0.0625</td>
+</tr>
+</tbody></table>
+<p>因此只可以精确表示为2的某次方之和的数，其他数则不能精确表示。</p>
+<h2 id="为什么一定要用二进制呢？"><a href="#为什么一定要用二进制呢？" class="headerlink" title="为什么一定要用二进制呢？"></a>为什么一定要用二进制呢？</h2><p>为什么就不能用我们熟悉的十进制呢？在最最底层，计算机使用的电子元器件只能表示两个状态，通常是低压和高压，对应0和1，使用二进制容易基于这些电子器件构建硬件设备和进行运算。如果非要使用十进制，则这些硬件就会复杂很多，并且效率低下。</p>
+<h2 id="为什么有的小数计算是准确的？"><a href="#为什么有的小数计算是准确的？" class="headerlink" title="为什么有的小数计算是准确的？"></a>为什么有的小数计算是准确的？</h2><p>如果你编写程序进行试验，你会发现有的计算结果是准确的。比如，我用Java写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="number">0.1f</span> + <span class="number">0.1f</span>);</span><br><span class="line">System.out.println(<span class="number">0.1f</span> * <span class="number">0.1f</span>);</span><br></pre></td></tr></table></figure>
+
+<p>第一行输出0.2，第二行输出0.010000001。按照上面的说法，第一行的结果应该也不对啊？</p>
+<p>其实，这只是Java语言给我们造成的假象，计算结果其实也是不精确的，但是由于结果和0.2足够接近，在输出的时候，Java选择了输出0.2这个看上去非常精简的数字，而不是一个中间有很多0的小数。</p>
+<p>在误差足够小的时候，结果看上去是精确的，但不精确才是常态。</p>
+<h2 id="怎么处理计算不精确"><a href="#怎么处理计算不精确" class="headerlink" title="怎么处理计算不精确"></a>怎么处理计算不精确</h2><p>计算不精确，怎么办呢？</p>
+<ul>
+<li>减小精度。大部分情况下，我们不需要那么高的精度，可以四舍五入，或者在输出的时候只保留固定个数的小数位。</li>
+<li>进行转换。如果真的需要比较高的精度，可以将小数转化为整数进行运算，运算结束后再转化为小数。</li>
+<li>使用十进制的数据类型。这个没有统一的规范，在Java中是用BigDecimal，运算更准确，但效率比较低。</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>小数计算为什么会出错呢？</p>
+<p>理由就是：很多小数计算机中不能精确表示，通常只可以精确表示为2的某次方之和的数，其他数则不能精确表示。计算机的基本思维是二进制的，所以，意料之外，情理之中吧。</p>
+</div></article></div><div class="right-container"><div class="widget"><div id="arAnchorBar"></div></div></div></section></div><div class="right-menu"></div><div class="modal search-modal"><div class="input-field"><input type="text" id="search_input"><label for="search-input">搜索</label></div><div id="search_result" class="search-result"></div></div><div class="blog-overlay"></div><footer class="row"><div class="footer-con"><div class="paginator"><a href="/2018/05/06/%E7%BC%96%E7%A0%81%E4%B8%8E%E4%B9%B1%E7%A0%81/" title="编码与乱码" class="prev">PREV</a><a href="/2018/04/08/%E6%95%B4%E6%95%B0%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA%E5%92%8C%E4%BD%8D%E8%BF%90%E7%AE%97/" title="整数的二进制表示和位运算" class="next">NEXT</a></div><a href="#comment" class="comment-anchor"></a><div id="vcomments"></div><script>new Valine({
+    el: "#vcomments",
+    appId: "aD8jJBpu4oew3ovNY73z6Rdq-gzGzoHsz",
+    appKey: "FdzS5SOPHdhYQoEUngQ8K2QW",
+    notify: false,
+    verify: false,
+    avatar: "robohash",
+    visitor: true,
+    placeholder: "随便说点什么～.～",
+});</script><div class="copyright"><p>© 2016 - 2021 <a target="_blank">RedPig</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <br> and <a href="https://github.com/Bulandent/hexo-theme-bubuzou" target="_blank">hexo-theme-bubuzou</a></p><p> <span style="padding-right: 6px;">闽ICP备16007301号-2</span></p></div><div class="totop"><i></i></div></div></footer><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/jquery-1.8.2.min.js"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/articleCatalog.js"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/main.js"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script><script>const valineAPI = (() => {
+try {
+    AV.init("aD8jJBpu4oew3ovNY73z6Rdq-gzGzoHsz", "FdzS5SOPHdhYQoEUngQ8K2QW");
+} catch(error) {}
+const isExist = (identity) => {
+    identity = identity || getRealPath();
+    let query = new AV.Query('Timer');
+    return new Promise((resolve, reject) => {
+    query.equalTo("identity", identity);
+    query.find().then(results => {
+        resolve(results.length > 0);
+    }, error => reject(error));
+    })
+}
+
+const _get = (identity) => {
+    let query = null;
+    if(identity && identity instanceof Array){
+    let querys = [];
+    for(let i = 0; i < identity.length; ++i) {
+        querys[i] = new AV.Query('Timer');
+        querys[i].equalTo('identity', identity[i]);
+    }
+    query = AV.Query.or.apply(null ,querys);
+    } else {
+    identity = identity || getRealPath();
+    query = new AV.Query("Timer");
+    query.equalTo("identity", identity);
+    }
+
+    return new Promise((resolve, reject) => {
+    query.find()
+    .then(results => resolve(results))
+    .catch(error => reject(error))
+    })
+}
+
+const create = (identity) => {
+    identity = identity || getRealPath();
+    return new Promise((resolve, reject) => {
+    let Todo = AV.Object.extend('Timer');
+    let todo = new Todo();
+    todo.set("times", 1);
+    todo.set("identity", identity);
+    todo.save().then(res => resolve(true), error => reject(error));
+    })
+}
+
+const update = (identity) => {
+    identity = identity || getRealPath();
+    return new Promise((resolve, reject) => {
+    let query = new AV.Query('Timer');
+    query.equalTo("identity", identity);
+    query.find().then(todos => {
+        todos.forEach(todo => {
+        todo.set("times", todo.attributes.times + 1);
+        });
+        return AV.Object.saveAll(todos);
+    }).then(todos => resolve(true), error => reject(error));
+    })
+}
+
+return {
+    isExist,
+    _get,
+    update,
+    create
+}
+})()
+
+const calcAndWriteTimes = () => {
+let isPost = true;
+
+let timerAllDOM = document.querySelectorAll(".article-timer");
+
+if(isPost) {
+    let identity = timerAllDOM[0].getAttribute("data-identity");
+    valineAPI.isExist(identity)
+    .then(exist => {
+    if(exist) {
+        return valineAPI.update(identity);
+    }
+    return new Promise(resolve => resolve(true));
+    })
+    .then( succuess => valineAPI._get(identity))
+    .then( result => timerAllDOM[0].innerText = result[0].attributes.times)
+    .catch(error => console.log(error.message))
+    return ;
+}
+
+let timerDOMCache = {};
+
+for(let timerDOM of timerAllDOM) {
+    let identity = timerDOM.getAttribute("data-identity");
+    if(timerDOMCache.hasOwnProperty(identity)){
+    timerDOMCache[identity].dom.push(timerDOM);
+    }else{
+    timerDOMCache[identity] = {
+        dom: [timerDOM],
+        times: undefined
+    };
+    }
+}
+
+let identities = Object.keys(timerDOMCache);
+valineAPI._get(identities).then(results => {
+    for(let result of results) {
+    let {identity, times} = result.attributes;
+    timerDOMCache[identity].times = times;
+    timerDOMCache[identity].dom.map(item => item.innerText = times);
+    }
+    for(let identity of identities) {
+    if(timerDOMCache[identity].times){
+        continue;
+    }
+    timerDOMCache[identity].dom.map(item => item.innerText = 1);
+    valineAPI.create(identity);
+    }
+}).catch(error => console.log(error.message))
+}
+
+if(true){
+calcAndWriteTimes();
+}</script></body></html>
