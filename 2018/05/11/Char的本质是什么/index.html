@@ -9,8 +9,7 @@
 <p>由于固定占用两个字节，char只能表示Unicode编号在65536以内的字符，而不能表示超出范围的字符。</p>
 <p>那超出范围的字符怎么表示呢？使用两个char。类String有一些相关的方法，我们后续会介绍。</p>
 <p>在这个认识的基础上，我们再来看下char的一些行为，就比较容易理解了。</p>
-<p><strong>char的赋值</strong></p>
-<p>char有多种赋值方式：</p>
+<h3 id="char的赋值"><a href="#char的赋值" class="headerlink" title="char的赋值"></a>char的赋值</h3><p>char有多种赋值方式：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> c = <span class="string">&#x27;A&#x27;</span>       <span class="comment">// 1</span></span><br><span class="line"><span class="keyword">char</span> c = <span class="string">&#x27;马&#x27;</span>      <span class="comment">// 2</span></span><br><span class="line"><span class="keyword">char</span> c = <span class="number">39532</span>     <span class="comment">// 3</span></span><br><span class="line"><span class="keyword">char</span> c = <span class="number">0x9a6c</span>    <span class="comment">// 4</span></span><br><span class="line"><span class="keyword">char</span> c = <span class="string">&#x27;\u9a6c&#x27;</span>  <span class="comment">// 5</span></span><br></pre></td></tr></table></figure>
 <p>第1种赋值方式是最常见的，将一个能用Ascii码表示的字符赋给一个字符变量。</p>
 <p>第 2种也很常见，但这里是个中文字符，需要注意的是，直接写字符常量的时候应该注意文件的编码，比如说，GBK编码的代码文件按UTF-8打开，字符会变成乱码，赋值的时候是按当前的编码解读方式，将这个字符形式对应的Unicode编号值赋给变量，’马’对应的Unicode编号是39532，所以第2种赋值和第3种是一样的。</p>
@@ -18,12 +17,11 @@
 <p>第4种是将16进制常量赋给字符。</p>
 <p>第5种是按Unicode字符形式。</p>
 <p>以上，2，3，4，5都是一样的，本质都是将Unicode编号39532赋给了字符。</p>
-<p><strong>char的运算</strong><br>由于char本质上是一个整数，所以可以进行整数可以进行的一些运算，在进行运算时会被看做int，但由于char占两个字节，运算结果不能直接赋值给char类型，需要进行强制类型转换，这和byte, short参与整数运算是类似的。</p>
+<h3 id="char的运算"><a href="#char的运算" class="headerlink" title="char的运算"></a>char的运算</h3><p>由于char本质上是一个整数，所以可以进行整数可以进行的一些运算，在进行运算时会被看做int，但由于char占两个字节，运算结果不能直接赋值给char类型，需要进行强制类型转换，这和byte, short参与整数运算是类似的。</p>
 <p>char类型的比较就是其Unicode编号的比较。</p>
 <p>char 的加减运算就是按其Unicode编号进行运算，一般对字符做加减运算没什么意义，但Ascii码字符是有意义的。比如大小写转换，大写A-Z的编号是 65-90，小写a-z的编号是97-122，正好相差32，所以大写转小写只需加32，而小写转大写只需减32。加减运算的另一个应用是加密和解密，将 字符进行某种可逆的数学运算可以做加解密。</p>
 <p>char的位运算可以看做就是对应整数的位运算，只是它是无符号数，也就是说，有符号右移&gt;&gt;和无符号右移&gt;&gt;&gt;的结果是一样的。</p>
-<p><strong>char的二进制</strong></p>
-<p>既然char本质上是整数，查看char的二进制表示，同样可以用Integer的方法，如下所示：</p>
+<h3 id="char的二进制"><a href="#char的二进制" class="headerlink" title="char的二进制"></a>char的二进制</h3><p>既然char本质上是整数，查看char的二进制表示，同样可以用Integer的方法，如下所示：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> c = <span class="string">&#x27;马&#x27;</span>;</span><br><span class="line">System.out.println(Integer.toBinaryString(c));</span><br></pre></td></tr></table></figure>
 
 <p>输出为 1001101001101100</p>
