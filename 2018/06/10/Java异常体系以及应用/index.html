@@ -69,7 +69,7 @@
 
 <p>获取异常栈每一层的信息，每个StackTraceElement包括文件名、类名、函数名、行号等信息。</p>
 <h2 id="异常类体系"><a href="#异常类体系" class="headerlink" title="异常类体系"></a>异常类体系</h2><p>以Throwable为根，Java API中定义了非常多的异常类，表示各种类型的异常，部分类示意如下：</p>
-<p><img src="https://images2015.cnblogs.com/blog/924211/201607/924211-20160707195250233-1530995915.jpg" alt="img"></p>
+<p><img src="/2018/06/10/Java%E5%BC%82%E5%B8%B8%E4%BD%93%E7%B3%BB%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8/Java%E5%BC%82%E5%B8%B8%E4%BD%93%E7%B3%BB%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8_p1.png" alt="img"></p>
 <p>Throwable是所有异常的基类，它有两个子类Error和Exception。</p>
 <p>Error表示系统错误或资源耗尽，由Java系统自己使用，应用程序不应抛出和处理，比如图中列出的虚拟机错误(VirtualMacheError)及其子类内存溢出错误(OutOfMemoryError)和栈溢出错误(StackOverflowError)。</p>
 <p>Exception表示应用程序错误，它有很多子类，应用程序也可以通过继承Exception或其子类创建自定义异常，图中列出了三个直接子类：IOException(输入输出I/O异常)，SQLException(数据库SQL异常)，RuntimeException(运行时异常)。</p>
