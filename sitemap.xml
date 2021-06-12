@@ -102,29 +102,29 @@
 
   <url>
     <loc>http://example.com/</loc>
-    <lastmod>2021-04-24</lastmod>
+    <lastmod>2021-06-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>http://example.com/tags/java/</loc>
-    <lastmod>2021-04-24</lastmod>
+    <loc>http://example.com/tags/Hexo/</loc>
+    <lastmod>2021-06-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/Hexo/</loc>
-    <lastmod>2021-04-24</lastmod>
+    <loc>http://example.com/tags/java/</loc>
+    <lastmod>2021-06-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/%E6%89%B9%E5%A4%84%E7%90%86/</loc>
-    <lastmod>2021-04-24</lastmod>
+    <lastmod>2021-06-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -132,22 +132,22 @@
 
   
   <url>
-    <loc>http://example.com/categories/java%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2021-04-24</lastmod>
+    <loc>http://example.com/categories/%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2021-06-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2021-04-24</lastmod>
+    <loc>http://example.com/categories/java%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2021-06-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/categories/Windows%E6%89%B9%E5%A4%84%E7%90%86/</loc>
-    <lastmod>2021-04-24</lastmod>
+    <lastmod>2021-06-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
