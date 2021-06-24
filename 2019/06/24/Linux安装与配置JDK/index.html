@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="baidu-site-verification" content="1EB8XoOl0C"><meta name="google-site-verification" content="K7thEgdLm0UfRWJ5MGdF7sCcjClSzAlxFLPv2Oz5CGM"><title> Linux安装与配置JDK · RedPig's Blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Linux安装与配置JDK - RedPig"><meta name="keywords" content="Linux,JDK"><meta name="author" content="RedPig"><link rel="short icon" href="/images/favicon.png"><link rel="stylesheet" href="/css/bubuzou.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="RedPig's Blog"><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="RedPig's Blog" type="application/atom+xml">
+</head><body><header><div class="header row"> <a href="/" class="logo-link"><img src="/images/logo.png"></a><ul id="nav_list" class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" data-hover="博文" class="nav-list-link">博文</a></li><li class="nav-list-item"><a href="/archives/" target="_self" data-hover="目录" class="nav-list-link">目录</a></li><li class="nav-list-item"><a href="https://github.com/htzone" target="_blank" data-hover="项目" class="nav-list-link">项目</a></li></ul><div class="search"><a id="search_btn" href="#search"></a></div><div id="nav_btn" class="nav-btn"><span></span><span></span><span></span></div></div></header><div class="row scroll-con"><section class="container"><!-- for archive page--><div id="postAr" class="post"><article class="post-block"><h1 class="post-title">Linux安装与配置JDK</h1><div class="post-info">2019-06-24</div><div class="post-content"><h2 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h2><p>所用版本信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">操作系统：CentOS-7.9</span><br><span class="line">JDK版本：JDK8</span><br></pre></td></tr></table></figure>
+
+<p>JDK下载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">网盘链接：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1NdpXyniO2Ka7eB84A4-OAw</span><br><span class="line">提取码：6666</span><br></pre></td></tr></table></figure>
+
+<div class="tip">这里我使用的Oracle官方的JDK，而非OpenJDK，因为OpenJDK很多功能不太全，不太建议使用。</div>
+然后将下载的JDK通过FileZilla传至Linux服务器的root目录 
+
+<p><img src="/2019/06/24/Linux%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AEJDK/p1.png" alt="img"></p>
+<p>接下来解压JDK</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf jdk-8u211-linux-x64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>然后创建JDK的存放目录 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;usr&#x2F;local&#x2F;java</span><br></pre></td></tr></table></figure>
+
+<p>将解压后的文件内容，拷贝到刚刚新建的目录（/usr/local/java）下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv jdk1.8.0_211 &#x2F;usr&#x2F;local&#x2F;java&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置JDK"><a href="#配置JDK" class="headerlink" title="配置JDK"></a>配置JDK</h2><p>配置JDK的环境变量，通过vi /etc/profile命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<p>然后在打开的文件末尾添加如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;java&#x2F;jdk1.8.0_211</span><br><span class="line">export CLASSPATH&#x3D;.:$JAVA_HOME&#x2F;jre&#x2F;lib&#x2F;rt.jar:$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib&#x2F;tools.jar</span><br><span class="line">export PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/06/24/Linux%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AEJDK/p2.png" alt="img"></p>
+<p>然后通过如下命令查看是否配置成功，有版本号就说明配置成功了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/06/24/Linux%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AEJDK/p3.png" alt="img"></p>
+<p>OK，以上就是Linux系统上安装配置JDK的全部过程了，希望对大家有帮助。</p>
+</div></article></div><div class="right-container"><div class="widget"><div id="arAnchorBar"></div></div></div></section></div><div class="right-menu"></div><div class="modal search-modal"><div class="input-field"><input type="text" id="search_input"><label for="search-input">搜索</label></div><div id="search_result" class="search-result"></div></div><div class="blog-overlay"></div><footer class="row"><div class="footer-con"><div class="paginator"><a href="/2019/06/25/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A7%A3%E6%9E%90%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/" title="Linux常用命令解析（持续更新）" class="prev">PREV</a><a href="/2018/06/28/Java%E5%BC%82%E5%B8%B8%E4%BD%93%E7%B3%BB%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8/" title="Java异常体系以及应用" class="next">NEXT</a></div><a href="#comment" class="comment-anchor"></a><div id="vcomments"></div><script>new Valine({
+    el: "#vcomments",
+    appId: "z8IRFulmWfMBxtW0H4j8jGUC-gzGzoHsz",
+    appKey: "da7lA80m2TSYSJFxtyMFuFD6",
+    notify: false,
+    verify: false,
+    avatar: "robohash",
+    visitor: true,
+    placeholder: "随便说点什么～.～",
+});</script><div class="copyright"><p>© 2016 - 2021 <a target="_blank">RedPig</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <br> and <a href="https://github.com/Bulandent/hexo-theme-bubuzou" target="_blank">hexo-theme-bubuzou</a></p><p> <span style="padding-right: 6px;">闽ICP备16007301号-2</span></p></div><div class="totop"><i></i></div></div></footer><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/jquery-1.8.2.min.js"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/articleCatalog.js"></script><script src="https://bubuzou.oss-cn-shenzhen.aliyuncs.com/blog/202010/main.js"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
