@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>如何将bat文件转换为exe带图标的文件</title>
+      <link href="2021/07/10/%E5%A6%82%E4%BD%95%E5%B0%86bat%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BAexe%E5%B8%A6%E5%9B%BE%E6%A0%87%E7%9A%84%E6%96%87%E4%BB%B6/"/>
+      <url>2021/07/10/%E5%A6%82%E4%BD%95%E5%B0%86bat%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BAexe%E5%B8%A6%E5%9B%BE%E6%A0%87%E7%9A%84%E6%96%87%E4%BB%B6/</url>
+      
+        <content type="html"><![CDATA[<h2 id="如何将bat文件转换为exe带图标的文件"><a href="#如何将bat文件转换为exe带图标的文件" class="headerlink" title="如何将bat文件转换为exe带图标的文件"></a>如何将bat文件转换为exe带图标的文件</h2><p>最近闲来没事，写了很多用于自动化处理的批处理文件，但是看着一个个齿轮图标，一方面没有一点美观，另一方面也是很不好进行区分，于是有了把bat文件转换为exe图标的想法，接下来就介绍下整个操作过程。</p><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul><li><p>需要下载一个转换工具</p><p>下载地址：<a href="https://pan.baidu.com/s/1npMc0-AI854_heA1xSDFgQ">https://pan.baidu.com/s/1npMc0-AI854_heA1xSDFgQ</a> 提取码：6666</p></li><li><p>你要转换的批处理文件</p><p>这里我随便写了一个run.bat用作测试，内容也很简单，就是执行jar文件。</p><p><img src="/2021/07/10/%E5%A6%82%E4%BD%95%E5%B0%86bat%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BAexe%E5%B8%A6%E5%9B%BE%E6%A0%87%E7%9A%84%E6%96%87%E4%BB%B6/p1.png" alt="img"></p></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">java -jar automan2-0.0.1-SNAPSHOT.jar</span><br><span class="line">pause</span><br></pre></td></tr></table></figure><h3 id="进行转换"><a href="#进行转换" class="headerlink" title="进行转换"></a>进行转换</h3><ul><li>将下载好的转换工具安装好，然后打开。</li></ul><p><img src="/2021/07/10/%E5%A6%82%E4%BD%95%E5%B0%86bat%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BAexe%E5%B8%A6%E5%9B%BE%E6%A0%87%E7%9A%84%E6%96%87%E4%BB%B6/p2.png" alt="img"></p><ul><li><p>将左上角，语言设置成简体中文，方便查看。</p></li><li><p>然后点击左上角选项 文件-&gt;打开 选择我们批处理文件的路径。</p></li></ul><p><img src="/2021/07/10/%E5%A6%82%E4%BD%95%E5%B0%86bat%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BAexe%E5%B8%A6%E5%9B%BE%E6%A0%87%E7%9A%84%E6%96%87%E4%BB%B6/p3.png" alt="img"></p><p><img src="/2021/07/10/%E5%A6%82%E4%BD%95%E5%B0%86bat%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BAexe%E5%B8%A6%E5%9B%BE%E6%A0%87%E7%9A%84%E6%96%87%E4%BB%B6/p4.png" alt="img"></p><ul><li>打开后会在主面板显示批处理文件内容，在右边的面板选择ico图标，我们需要将我们用作exe的图标转换为ico格式的，这里我提供一个在线的转换工具 <a href="https://www.bitbug.net/">https://www.bitbug.net</a></li></ul><p><img src="/2021/07/10/%E5%A6%82%E4%BD%95%E5%B0%86bat%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BAexe%E5%B8%A6%E5%9B%BE%E6%A0%87%E7%9A%84%E6%96%87%E4%BB%B6/p5.png" alt="img"></p><ul><li>选择好图标后，我们点击转换选项执行转换，然后选择exe要保存的目录即可。</li></ul><p><img src="/2021/07/10/%E5%A6%82%E4%BD%95%E5%B0%86bat%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BAexe%E5%B8%A6%E5%9B%BE%E6%A0%87%E7%9A%84%E6%96%87%E4%BB%B6/p6.png" alt="img"></p><p>我们需要把exe放在jar文件的目录中才能正常执行，因为该转换操作仅仅是把bat文件转换为exe，并没有将jar文件打包进去。</p><p>到此，我们的转换就结束了。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 工具 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 批处理 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>简化开发的Java常用工具库</title>
       <link href="2021/06/20/%E7%AE%80%E5%8C%96%E5%BC%80%E5%8F%91%E7%9A%84Java%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%BA%93/"/>
       <url>2021/06/20/%E7%AE%80%E5%8C%96%E5%BC%80%E5%8F%91%E7%9A%84Java%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%BA%93/</url>
